@@ -1,0 +1,12 @@
+<!-- 기본적으로 모든 페이지가 이 페이지를 가져와 표시하게 할 경우의 html 파일-->
+<!DOCTYPE html>
+<html lang="{{ page.lang | default: site.lang | default: "en" }}">
+{%- include head.html -%}
+<link href="/public/css/style.css" rel="stylesheet">
+
+<body>
+{%- include header.html -%}
+<h1> Hi</h1>
+
+<script src = "/public/js/test.js" defer></script>
+</body>
