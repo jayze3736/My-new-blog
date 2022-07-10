@@ -1,0 +1,28 @@
+<!-- 공사중 -->
+{%- assign root_array = "" | split: ","-%}
+{%- for category in site.categories -%}
+    {%- assign tag_list = "" | split: ","-%}
+    {%- assign category_name = category | first-%}
+    {%- assign tag_list = tag_list | push: category_name -%}
+    
+    {%- assign posts = category | last -%}
+    {%- assign temp_list = "" | split: "," -%}
+    {%- assign size = posts | size -%}
+    {%-  for post in posts -%}
+        {%- assign temp_list = temp_list | push: post.tag -%}
+        
+    {%- endfor -%}
+    
+    {%- assign temp_list = temp_list | uniq -%}
+    
+    {%- for item in temp_list-%}
+        {%- assign tag_list = tag_list | push: item -%}
+    {%- endfor -%}
+        {%- assign tag_list = tag_list | push: size -%}
+    <!-- root_array의 0번째 요소는 카테고리 이름, 마지막은 카테고리 포스트 개수, 나머지는 tag이름-->
+    {%- assign root_array = root_array | push: tag_list -%}
+{%- endfor -%}
+
+
+    
+<!-- 공사중 -->

@@ -2,17 +2,56 @@
 <div id = "mySidebar" class = "test-sidebar">
     <span class="test-title">Categories</span>
     <button class = close-btn onclick="closeNav()"> &times; </button>
-    
         <ul class="nav">
+          <!-- #region Get Array that has post's category and tag pair -->
+          {%- assign root_array = "" | split: ","-%}
+          {%- for category in site.categories -%}
+              {%- assign tag_list = "" | split: ","-%}
+              {%- assign category_name = category | first-%}
+              {%- assign tag_list = tag_list | push: category_name -%}
               
-          {% for category in site.categories %}
+              {%- assign posts = category | last -%}
+              {%- assign temp_list = "" | split: "," -%}
+              {%- assign size = posts | size -%}
+              {%-  for post in posts -%}
+                  {%- assign temp_list = temp_list | push: post.tag -%}
+                  
+              {%- endfor -%}
+              
+              {%- assign temp_list = temp_list | uniq -%}
+              
+              {%- for item in temp_list-%}
+                  {%- assign tag_list = tag_list | push: item -%}
+              {%- endfor -%}
+                  {%- assign tag_list = tag_list | push: size -%}
+              <!-- root_array의 0번째 요소는 카테고리 이름, 마지막은 카테고리 포스트 개수, 나머지는 tag이름-->
+              {%- assign root_array = root_array | push: tag_list -%}
+          {%- endfor -%}
+          <!-- endregion -->
+
+          <!-- site.categories -->
+          {% for array in root_array %}
           <li>
-              <a class="nav-item" href="{{ root_url }}/{{ site.category_dir }}#{{ category | first }}">
-                  <span class="name">{{ category | first }}</span>
-                  <span class="badge">{{ category | last | size }}</span>
-              </a>
+              <div class="nav-item">
+                <span class="name" onclick="testStyleChange(event)">{{ array | first }}
+                </span>
+                <span class="badge" >{{ array | last }}</span>
+                <ul class ="sub-menu" id = "subMenu">
+            
+                  {%- for tag in array -%}
+                  {%- unless tag == array.first or tag == array.last-%}      
+                  <a class = "sub-menu-item" href = "#" > {{ tag }} </a>
+                  {%- endunless -%}
+                  {%- endfor -%}
+                  
+                </ul>
+              </div>
+              
+              <!-- -->
+              
            </li>
-          {% endfor %}
+           
+           {% endfor %}
         </nav>
       </ul>
      

@@ -1,0 +1,26 @@
+  <!-- #region Get Array that has post's category and tag pair -->
+  {%- assign root_array = "" | split: ',' -%}
+  {%- for post in site.posts -%}
+      {%- assign array = ""  | split: ',' -%} 
+      {%- assign category = post.categories | first -%}
+      {%- assign tag = post.tag -%}
+      category: {{ category | inspect}} 
+      <!-- tag: {{ tag | inspect }} -->
+      {%- assign array = array | push: category -%}
+      {%- assign array = array | push: tag -%}
+      <!-- array: {{ array | inspect}} -->
+
+      {%- assign duplicated = false -%}
+      {%- for element in root_array -%}
+          {%- if element == array -%}
+              {%- assign duplicated = true -%}
+              {% break %} 
+          {%- endif -%}
+      {% endfor %}
+
+      {%- if duplicated == false -%}
+          {%- assign root_array = root_array | push:array -%}
+          <!-- root_array: {{root_array | inspect}} -->
+      {%- endif -%}
+  {% endfor %}
+  <!-- endregion -->

@@ -569,18 +569,7 @@ code {
 	margin-bottom: 5px;
 }
 
-a.nav-item {
-	font-size: 120%;
-	font-family: "Noto Sans";
-	text-transform: capitalize;
-	color: #aaa;
-}
 
-a.nav-item:hover { color: #777; }
-
-.badge { font-size: 70%; }
-.badge::before { content: "("; }
-.badge::after { content: ")"; }
 
 .post-list > li {
 }
@@ -802,19 +791,58 @@ color: #fff;
 	padding-top: 20px;
   }
   
-  .test-sidebar a {
-	padding: 8px 8px 8px 32px;
-	text-decoration: none;
-	font-size: 25px;
-	color: #818181;
-	display: block;
-	transition: 0.3s;
+  
+
+  .test-sidebar .siderbar-item{
+ 
+
   }
 
-  
-  .test-sidebar a:hover {
-	color: #f1f1f1;
+  .test-sidebar .sub-menu{
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 16px;
+    color: #818181;
+    display: none;
+    transition: 0.3s;
+
   }
+
+  .test-sidebar .sub-menu .sub-menu-item{
+
+    padding: 8px 8px 8px 0px;
+    text-decoration: none;
+    font-size: 18px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+
+  }
+
+ 
+
+  .test-sidebar .sub-menu .closed-item{
+
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 18px;
+    color: transparent;
+    display: block;
+    transition: 0.3s;
+    height: 0;
+
+  }
+
+  .test-sidebar .sub-menu a::before{
+    content: "\2022";  /* Add content: \2022 is the CSS Code/unicode for a bullet */
+    color: #818181; /* Change the color */
+    font-weight: bold; /* If you want it to be bold */
+    display: inline-block; /* Needed to add space between the bullet and the text */
+    width: 1em; /* Also needed for space (tweak if needed) */
+    margin-left: -1em;
+  }
+  
+ 
 
  .test-sidebar .test-title {
 	padding: 8px 8px 8px 40px;
@@ -826,7 +854,12 @@ color: #fff;
   }
 
   .test-sidebar .sidebar-item{
-
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 16px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
 
   }
 
@@ -840,7 +873,59 @@ color: #fff;
     
   }
 
+  .test-sidebar li{
+    list-style-type: none;
+  }
 
+  
+
+  .test-sidebar ul{
+    padding-inline-start: 0;
+  }
+
+  .test-sidebar .nav-item {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+    margin-top: 0;
+    margin-bottom: 0;
+    
+  }
+
+  .test-sidebar .nav-item .name{
+    cursor: pointer;
+
+  }
+
+  
+
+
+  .test-sidebar .nav-item:hover {
+    color: #f1f1f1;
+  }
+
+  .test-sidebar .sub-menu .sub-menu-item:hover{
+    color: #f1f1f1;
+  }
+
+  .show{
+    display: block;
+  }
+  /*a.nav-item {
+    font-size: 120%;
+    font-family: "Noto Sans";
+    text-transform: capitalize;
+    color: #aaa;
+  }*/
+  
+  /*a.nav-item:hover { color: #777; }*/
+  
+  .badge { font-size: 70%; }
+  .badge::before { content: "("; }
+  .badge::after { content: ")"; }
 
 @media (max-width: 576px) {
 	article {
