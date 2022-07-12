@@ -32,15 +32,21 @@
           <!-- site.categories -->
           {% for array in root_array %}
           <li>
+              {%- assign categories = array | first-%}
               <div class="nav-item">
-                <span class="name" onclick="testStyleChange(event)">{{ array | first }}
+                <span class="name" onclick="testStyleChange(event)">{{ categories }}
                 </span>
                 <span class="badge" >{{ array | last }}</span>
                 <ul class ="sub-menu" id = "subMenu">
             
                   {%- for tag in array -%}
-                  {%- unless tag == array.first or tag == array.last-%}      
-                  <a class = "sub-menu-item" href = "#" > {{ tag }} </a>
+                  {%- unless tag == array.first or tag == array.last-%}
+                   
+                    <!-- "{{ root_url }}/{{ site.category_dir }}#{{ categories }}#{{ tag }} | url_decode" --> 
+                  <a class = "sub-menu-item" 
+                  href = "{{ root_url }}/{{ site.category_dir }}#{{ categories }}/{{ tag }}" >
+                    
+                    {{ tag }} </a>
                   {%- endunless -%}
                   {%- endfor -%}
                   

@@ -1,5 +1,5 @@
 <!-- body에서 블로그 이름 또는 머리말을 정의할때 사용, 근데 블로그 이름은 default에서 정의할듯-->
 <header class = test-header>
     {%- include sidebar.html -%}
-    <a href = "#" class="title-position" > Jaymond's Blog </a>
+    <a href="{{ "/" | relative_url }}" rel = "author" class="title-position" > Jaymond's Blog </a>
 </header>
