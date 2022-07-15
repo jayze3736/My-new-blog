@@ -31,7 +31,8 @@ github_username:  jekyll
 post_root_url: _posts/
 author: jayze
 category_dir: category/
-number_of_posts: 10
+number_paginate: 10
+num_recentPosts: 10
 
 # Build settings
 #theme: minima

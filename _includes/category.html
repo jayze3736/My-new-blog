@@ -3,46 +3,184 @@
 	<header class="post-header home">
 		<div class="post-title"><span id = 'category-title'></span><span class = "tag-title" id='tag-name'></span></div>
 	</header>
-
+	
+	
 	<div class="post-content">
 		{%- if site.posts.size > 0 -%}
 		<ul class="post-list">
 			{%- for post in site.posts -%}
-			<li class="post-list-item post-category-{{post.tag}}">
+			<li class="post-list-item post-{{post.category}}-{{post.tag}}">
 				<!-- {%- assign date_format = site.date_format | default: "%b %-d, %Y" -%} -->
 				{%- assign date_format = "%Y/%m/%d" -%}
 				<span class="post-date">{{ post.date | date: date_format }}</span>
-				<a class="post-link" href="{{ post.url | relative_url }}">
+				<a class="post-link" href="{{ post.url | relative_url }}" >
 					{{ post.title | escape }}
 				</a>
 				{%- if site.show_excerpts -%}{{ post.excerpt }}{%- endif -%}
 			</li>
 		  	{%- endfor -%}
+			
+			
 		</ul>
 	  	{%- endif -%}
 	</div>
 </article>
+<!-- 여기다가 paginator 설치 -->
+<!-- TODO: paginator 클래스 스타일 정의 -->
+<!-- TODO: paginator-list 스타일 정의-->
+
+<div class = "paginator">
+<li id = 'pg-list' class = "paginator-list">
+	
+</li>
+</div>
 
 <script src="/public/js/jquery-3.4.1.slim.min.js"></script>
 <script>
 	function removeCategory() {
 		if (window.location.hash) {
+			
 			let hash = window.location.hash.substring(1);
 			let ctpair = hash.split("/");
 			let category_name = decodeURI(ctpair[0]);
 			let tag_name = decodeURI(ctpair[1]);
 			$('#tag-name').text(tag_name.substring(0, 1).toUpperCase() + tag_name.substring(1));
 			$('#category-title').text(category_name.substring(0, 1).toUpperCase() + category_name.substring(1)+ ": ");
-			let category_class = '.post-category-' + tag_name;
+			let category_class = 'post-'+ category_name +'-'+ tag_name;
+			
+			let showing_posts = [];
 			let items = $('.post-list-item').each((i, e) => {
-				if (!$(e).hasClass('post-category-' + tag_name)) {
+				if (!$(e).hasClass(category_class)) {
 					$(e).hide();
 				} else {
 					$(e).show();
+					showing_posts.push(e);
 				}
 			});
+			
+			PaginatePosts(showing_posts);
 		}
 	}
+
+	//FindCurrentCTPosts: posts를 다시 가공하여 paginate로 보여지는 포스트 수를 제한한다.
+	function PaginatePosts(posts){
+	//posts: removeCategory 함수를 실행하면서 얻은 현재 선택한 카테고리, 태그에 해당하는 포스트들의 배열
+		let paginate = "{{ site.number_paginate | json }}";
+		let size = $(posts).length;
+		
+		if(size > 0){
+			let div = parseInt(size / paginate);
+			
+			let mod = size % paginate;
+			
+			if(mod == 0){
+				CreatePaginate(div, posts);
+			}
+			else if(mod > 0){
+				CreatePaginate(div + 1, posts);
+			}
+		}
+		else{
+
+		}
+		
+
+
+
+	}
+
+	function CreatePaginate(number, posts){
+
+		let first_paginator;
+		for(i = 0; i < number ; i++){
+			let paginator = document.createElement('button');
+			
+
+			$(paginator).click(function(){
+				//find current element having strong-prop
+				let strong_element = $( '.paginator .strong-prop');
+
+				//element that raised click event
+				let pag = $(paginator);
+				
+				if(!pag.hasClass('strong-prop')){
+					$(paginator).addClass('strong-prop');
+					$(strong_element).removeClass('strong-prop');
+					ShowPaginatedPosts(pag, posts);
+				}
+
+				
+
+				
+			});
+			
+    		
+			
+			//paginator.setAttribute('onclick', ShowPaginatedPosts);
+			$(paginator).text(i + 1);
+			$('#pg-list').append(paginator);
+
+			let index_str = String(i);
+			let index = index_str + "th";
+			if(i == 0){
+				let attrs = ['strong-prop', index];
+				$(paginator).addClass(attrs);
+				ShowPaginatedPosts(paginator, posts);
+				
+			}
+			else{
+				$(paginator).addClass(index);
+			}
+			
+			
+		}
+		
+	}
+
+	function ShowPaginatedPosts(strong_element, posts){
+		//let strong_element = $( '.paginator .strong-prop');
+		//console.log(strong_element);
+		let paginate = "{{ site.number_paginate | json }}";
+  		let index_str = $(strong_element).text();
+		let index = Number(index_str);
+		console.log(index);
+		$(posts).each((i, e) => {
+			if(i >= ((index - 1) * paginate) && i <= (index * paginate - 1)){
+				$(e).show();
+			}
+			else{
+				$(e).hide();
+			}
+		});
+		
+		
+		//console.log("posts size:" + posts.size);
+		
+		
+		
+	}
+
+	// function removeCategory() {
+	// 	if (window.location.hash) {
+			
+	// 		let hash = window.location.hash.substring(1);
+	// 		let ctpair = hash.split("/");
+	// 		let category_name = decodeURI(ctpair[0]);
+	// 		let tag_name = decodeURI(ctpair[1]);
+	// 		let category_class = '.post-category-' + tag_name;
+	// 		let items = $('.post-list-item').each((i, e) => {
+	// 			if (!$(e).hasClass('post-category-' + tag_name)) {
+	// 				$(e).hide();
+	// 			} else {
+	// 				$(e).show();
+	// 			}
+	// 		});
+	// 		console.log(items);
+	// 	}
+	// }
+
+
+
 	$(window).on('hashchange', () => {
 		removeCategory();
 	});
