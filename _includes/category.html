@@ -1,4 +1,4 @@
-<article class="post">
+<article class="top-post">
 	{%- assign category_name = "" -%}
 	<header class="post-header home">
 		<div class="post-title"><span id = 'category-title'></span><span class = "tag-title" id='tag-name'></span></div>
@@ -12,11 +12,23 @@
 			<li class="post-list-item post-{{post.category}}-{{post.tag}}">
 				<!-- {%- assign date_format = site.date_format | default: "%b %-d, %Y" -%} -->
 				{%- assign date_format = "%Y/%m/%d" -%}
-				<span class="post-date">{{ post.date | date: date_format }}</span>
-				<a class="post-link" href="{{ post.url | relative_url }}" >
+				<a class="CT-post-link" href="{{ post.url | relative_url }}" >
 					{{ post.title | escape }}
 				</a>
-				{%- if site.show_excerpts -%}{{ post.excerpt }}{%- endif -%}
+				
+				<span class="post-date">Posted&nbsp;on&nbsp;{{ post.date | date: date_format }}</span>
+				
+				<br>
+				<span class="post-excerpt">
+				
+					{%- if post.excerpt_seperator -%}
+					{{ post.excerpt  | append: "..."}}
+					{%- else if site.show_excerpts -%}
+					{{ post.excerpt | strip_html | truncatewords: 50, "..."}}
+					{%- endif -%}
+
+				</span>
+				
 			</li>
 		  	{%- endfor -%}
 			
@@ -24,6 +36,7 @@
 		</ul>
 	  	{%- endif -%}
 	</div>
+	
 </article>
 <!-- 여기다가 paginator 설치 -->
 <!-- TODO: paginator 클래스 스타일 정의 -->
@@ -37,7 +50,7 @@
 
 <script src="/public/js/jquery-3.4.1.slim.min.js"></script>
 <script>
-	function removeCategory() {
+	function removeCategory(ismobile) {
 		if (window.location.hash) {
 			
 			let hash = window.location.hash.substring(1);
@@ -57,15 +70,19 @@
 					showing_posts.push(e);
 				}
 			});
+			PaginatePosts(showing_posts, ismobile);
 			
-			PaginatePosts(showing_posts);
 		}
 	}
 
 	//FindCurrentCTPosts: posts를 다시 가공하여 paginate로 보여지는 포스트 수를 제한한다.
-	function PaginatePosts(posts){
+	function PaginatePosts(posts, ismobile){
 	//posts: removeCategory 함수를 실행하면서 얻은 현재 선택한 카테고리, 태그에 해당하는 포스트들의 배열
 		let paginate = "{{ site.number_paginate | json }}";
+		if(ismobile){
+			paginate = parseInt(paginate / 2);
+			
+		}
 		let size = $(posts).length;
 		
 		if(size > 0){
@@ -74,10 +91,10 @@
 			let mod = size % paginate;
 			
 			if(mod == 0){
-				CreatePaginate(div, posts);
+				CreatePaginate(div, posts, ismobile);
 			}
 			else if(mod > 0){
-				CreatePaginate(div + 1, posts);
+				CreatePaginate(div + 1, posts, ismobile);
 			}
 		}
 		else{
@@ -89,7 +106,7 @@
 
 	}
 
-	function CreatePaginate(number, posts){
+	function CreatePaginate(number, posts, ismobile){
 
 		let first_paginator;
 		for(i = 0; i < number ; i++){
@@ -106,7 +123,7 @@
 				if(!pag.hasClass('strong-prop')){
 					$(paginator).addClass('strong-prop');
 					$(strong_element).removeClass('strong-prop');
-					ShowPaginatedPosts(pag, posts);
+					ShowPaginatedPosts(pag, posts, ismobile);
 				}
 
 				
@@ -125,7 +142,7 @@
 			if(i == 0){
 				let attrs = ['strong-prop', index];
 				$(paginator).addClass(attrs);
-				ShowPaginatedPosts(paginator, posts);
+				ShowPaginatedPosts(paginator, posts, ismobile);
 				
 			}
 			else{
@@ -137,10 +154,13 @@
 		
 	}
 
-	function ShowPaginatedPosts(strong_element, posts){
+	function ShowPaginatedPosts(strong_element, posts, ismobile){
 		//let strong_element = $( '.paginator .strong-prop');
 		//console.log(strong_element);
 		let paginate = "{{ site.number_paginate | json }}";
+		if(ismobile){
+			paginate = parseInt(paginate / 2);
+		}
   		let index_str = $(strong_element).text();
 		let index = Number(index_str);
 		console.log(index);
@@ -159,6 +179,23 @@
 		
 		
 	}
+
+	function detectMob() {
+    //return ( ( window.innerWidth <= 800 ) && ( window.innerHeight <= 600 ) );
+	const toMatch = [
+        /Android/i,
+        /webOS/i,
+        /iPhone/i,
+        /iPad/i,
+        /iPod/i,
+        /BlackBerry/i,
+        /Windows Phone/i
+    ];
+    
+    return toMatch.some((toMatchItem) => {
+        return navigator.userAgent.match(toMatchItem);
+    });
+  }
 
 	// function removeCategory() {
 	// 	if (window.location.hash) {
@@ -182,10 +219,17 @@
 
 
 	$(window).on('hashchange', () => {
-		removeCategory();
+		$('#pg-list').empty();
+		let ismobile = detectMob();
+		removeCategory(ismobile);
+		
 	});
 	$(document).ready(() => {
-		removeCategory();	
+		$('#pg-list').empty();
+		let ismobile = detectMob();
+		removeCategory(ismobile);
+		
+		
 	})
 	
 </script>
