@@ -1,15 +1,185 @@
+{%- assign e = site.categories[page.category] -%}		
+{%- assign f = e -%}
+{%- assign arr = "" | split: "," -%}
+{%- assign index = 0 -%}
+{%- assign cur = 0 -%}
+{%- for t in f -%}
+	{%- if t == page -%}
+		{%- assign cur = index -%}
+	{%- endif -%}
+
+	{%- if t.tag == page.tag -%}
+		{%- assign index = index | plus: 1 -%}
+		{%- assign arr = arr | push: t-%}
+	{%- endif -%}
+	
+{%- endfor -%}
+
 <article class="top-post">
 	<header class="post-header">
+		
+
 		<div class="post-title">
 			{{ page.title | escape }}
 		</div>
+
 		<time class="post-date dt-published" datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">
 			{%- assign date_format = site.date_forma | default: "%Y/%m/%d" -%}
 			{{ page.date | date: date_format }}
-		</time>		
+		</time>	
+
+		{%- assign size = arr.size | minus: 1 -%}
+		{%- unless cur == size -%}
+			{%- assign next = cur | plus: 1 -%}
+			{%- assign nextpost = arr[next] -%}
+			<a class = "next-post-link" href="{{ nextpost.url }}">
+				{{nextpost.title}}&nbsp;&gt;
+			</a>
+		{%- endunless -%}
+
+		{%- unless cur == 0 -%}
+			{%- assign prev = cur | minus: 1 -%}
+			{%- assign prevpost = arr[prev] -%}
+			<a class = "prev-post-link" href="{{ prevpost.url }}">
+				&lt;&nbsp;{{prevpost.title}}
+			</a>
+		{%- endunless -%}
+
+		
+		
 	</header>
 
 	<div class="post-content">
 		{{ content }}
 	</div>
+
+	<!-- 네이버 처럼 포스트 mini paginator list를 만들거임 -->
+	<div class = "post-paginator-list" id = "post-links">
+		
+		{%- for post in arr -%}
+		<li class = "list">
+			<a class = "paginator-post" href = {{post.url}}>
+				{{post.title}}
+			</a>
+		</li>
+		{%- endfor -%}
+		
+	</div>
 </article>
+
+<!-- 뒤로 가기 버튼 추가 -->
+
+
+<script src="/public/js/jquery-3.4.1.slim.min.js"></script>
+<script>
+
+$("#post-link-list").children('li').each((i, e) => {
+
+
+});
+
+
+function CreateMiniPaginator(){
+
+	//cur index in arr
+	//load paginator
+	//
+	
+	let paginate = "{{ site.number_paginate | json }}";
+	let cur_str = "{{cur | json}}"
+	
+	let cur = Number(cur_str);
+	//모바일인 경우 반으로 줄임
+	let posts = $("#post-links").children('li');
+	let size = $(posts).length;
+
+	$(posts).each((i,e) => {
+		if(i >= ((i - 1) * paginate) && i <= (i * paginate - 1))
+		{
+
+		}
+
+	});
+	let max_index;
+	console.log(size);
+	if(size > 0){
+		let div = parseInt(size / paginate);
+		let mod = size % paginate;
+	
+		
+		
+		if(mod == 0){
+			max_index = div;
+		}
+		else if(mod > 0){
+			max_index = div + 1;
+		}
+
+
+	}
+
+	for(let i = 0; i < max_index; i++){
+		if(i >= ((i - 1) * paginate) && i <= (i * paginate - 1))
+		{
+
+		}
+	}
+
+
+}
+
+
+//not using
+function ReceivePostLink(){
+
+
+
+
+
+	const array = JSON.parse(localStorage.getItem("nodelist"));
+	const index = JSON.parse(localStorage.getItem("index"));
+	//console.log(array[index]);
+	//const {prev, next, prevPosttitle, nextPosttitle} = JSON.parse(localStorage.getItem("Node"));
+	
+	const node = array[index];
+	
+	const [prev, next, prevPosttitle, nextPosttitle]= [node.prev, node.next, node.prevPosttitle, node.nextPosttitle];
+	
+	// const prev = node.prev;
+	// const next = node.next;
+	// const prevtitle = node.prevPosttitle;
+	// const 
+	localStorage.removeItem("nodelist");
+	localStorage.removeItem("index");
+
+	let prevElement = document.querySelector('.prev-post-link');
+	let nextElement = document.querySelector('.next-post-link');
+
+	$(prevElement).attr('href', prev);
+	$(prevElement).text(prevPosttitle);
+
+	$(nextElement).attr('href', next);
+	$(nextElement).text(nextPosttitle);
+
+	$(nextElement).on('click', function(){
+		const nextIndex = (index + 1);
+		localStorage.setItem("index", JSON.stringify(nextIndex));
+	});;
+	$(prevElement).on('click', function(){
+		const prevIndex = (index - 1);
+		localStorage.setItem("index", JSON.stringify(prevIndex));
+	});
+
+
+	
+	// console.log(prev, next, prevPosttitle, nextPosttitle);
+}
+
+$(document).ready(() => {
+		CreateMiniPaginator();
+		
+})
+
+
+
+</script>

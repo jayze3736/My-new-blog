@@ -31,10 +31,10 @@ github_username:  jekyll
 post_root_url: _posts/
 author: jayze
 category_dir: category/
-number_paginate: 10
-num_recentPosts: 10
-show_excerpts: true
-
+number_paginate: 10 #the number of posts per category page
+num_recentPosts: 10 #the maximum number of posts on home page
+show_excerpts: true 
+paginate_link_margin: 3 #the maximum number of paginator link per page 
 
 # Build settings
 #theme: minima
