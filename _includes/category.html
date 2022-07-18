@@ -58,8 +58,41 @@
 			let category_name = decodeURI(ctpair[0]);
 			let tag_name = decodeURI(ctpair[1]);
 
-
 			
+			
+
+
+			$('.CT-post-link').each((i, e) => {
+
+				
+				$(e).on('click', function(){
+					let iarr = [];
+					let strong_element_index;
+					//button이고 index 속성을 가지고 있음
+					$('#pg-list').children('.index').each((i,e)=>{
+						let str = $(e).text();
+						let str_int = Number(str);
+						iarr.push(str_int);
+						
+						if($(e).hasClass('strong-prop')){
+							strong_element_index = (str_int - 1);
+						}
+
+					});
+
+					const postmeta = {
+					category: category_name,
+					tag: tag_name,
+					indexs: iarr,
+					strong: strong_element_index,
+
+					}
+					
+
+					localStorage.setItem("postmeta", JSON.stringify(postmeta));
+				})
+
+			});
 
 
 			$('#tag-name').text(tag_name.substring(0, 1).toUpperCase() + tag_name.substring(1));
@@ -75,7 +108,9 @@
 					showing_posts.push(e);
 				}
 			});
-			PaginatePosts(showing_posts, ismobile);
+
+			return showing_posts;
+			//PaginatePosts(showing_posts, ismobile);
 			//GetPostlink(showing_posts);
 		}
 		
@@ -93,7 +128,7 @@
 			$(e).on("click", function() {
 				let strong_element = $( '.paginator .strong-prop');
 				let str = $(strong_element).text();
-				const index = Number(str);
+				const index = (Number(str) - 1);
 				localStorage.setItem("index", JSON.stringify(index));
 			});
 			
@@ -113,7 +148,7 @@
 
 
 	//FindCurrentCTPosts: posts를 다시 가공하여 paginate로 보여지는 포스트 수를 제한한다.
-	function PaginatePosts(posts, ismobile){
+	function CalcPaginatorSize(posts, ismobile){
 	//posts: removeCategory 함수를 실행하면서 얻은 현재 선택한 카테고리, 태그에 해당하는 포스트들의 배열
 		let paginate = "{{ site.number_paginate | json }}";
 		if(ismobile){
@@ -122,7 +157,7 @@
 		}
 		let size = $(posts).length;
 		
-		if(size > 0 ){
+		if(size > 0){
 			let div = parseInt(size / paginate);
 			
 			let mod = size % paginate;
@@ -155,8 +190,10 @@
 				
 			}
 
-			CreatePaginate(paginator_size, posts, ismobile);
-			CreatePrevNextButton(max_index, posts, ismobile);
+			return [paginator_size, max_index];
+
+			//CreatePaginate(paginator_size, posts, ismobile);
+			//CreatePrevNextButton(max_index, posts, ismobile);
 			
 		}
 		
@@ -165,6 +202,84 @@
 
 
 	}
+
+	function RecoverPaginate(max_index, paginator_size, showing_posts, ismobile ,indexs, strong){
+		
+		
+		let arr = indexs;
+		let size = $(arr).length;
+		
+		if(size != paginator_size)
+		{
+			console.log("false");
+			return false;
+		}
+		
+		//console.log("paginator_size: " + paginator_size);
+		for(i = 0; i < paginator_size ; i++){
+			let paginator = document.createElement('button');
+			let arr = indexs;
+
+			$(paginator).click(function(){
+				//find current element having strong-prop
+				let strong_element = $( '.paginator .strong-prop');
+
+				//element that raised click event
+				let pag = $(paginator);
+				
+				if(!pag.hasClass('strong-prop')){
+					$(paginator).addClass('strong-prop');
+					$(strong_element).removeClass('strong-prop');
+					ShowPaginatedPosts(pag, showing_posts, ismobile);
+					
+				}
+				
+
+				
+
+				
+			});
+			
+    		
+			
+			//index는 paginator index link에 들어갈 숫자값, 1부터 시작
+			let index = arr[i];
+			$(paginator).text(index);
+			
+			$('#pg-list').append(paginator);
+
+			let index_str = String(i);
+			let indexclass = index_str + "th";
+			
+			
+			//strong은 index 배열에서 strong element의 위치값
+			if((index-1) == strong){
+				
+				
+				let attrs = ['strong-prop', 'index' ,indexclass];
+				$(paginator).addClass(attrs);
+				ShowPaginatedPosts(paginator, showing_posts, ismobile);
+				
+			}
+			else{
+				let attrs = ['index' , indexclass];
+				$(paginator).addClass(attrs);
+			}
+			
+			
+
+			//paginator의 index 최댓값보다 큰 숫자의 element는 숨김
+			if(index > max_index){
+				$(paginator).hide();
+			}
+
+			
+			
+			
+		}
+
+	}
+	
 
 	function CreatePaginate(paginator_size, posts, ismobile){
 
@@ -242,7 +357,7 @@
 		}
   		let index_str = $(strong_element).text();
 		let index = Number(index_str);
-		console.log(index);
+		
 
 		// paginate 값을 절반으로 줄여서 보여주는 포스트 수를 절반으로 줄임
 		$(posts).each((i, e) => {
@@ -268,7 +383,7 @@
 		if(!($(default_element).hasClass('strong-prop'))){
 			$(default_element).addClass('strong-prop');
 			$(strong_element).removeClass('strong-prop');
-			//ShowPaginatedPosts(strong_element, posts, ismobile)
+			
 		}
 	}
 
@@ -283,10 +398,9 @@
 		let next_button = document.createElement('button');
 		let margin_string = "{{ site.paginate_link_margin | json }}";
 		let paginate_margin = Number(margin_string);
-		console.log("margin: "+ paginate_margin);
+		
 		$(prev_button).text("<prev");
 		$(next_button).text("next>");
-
 		
 		//decide whether expose next prev button
 		$(page_list).children().each((i, e) => {
@@ -297,9 +411,12 @@
 				
 
 				if(int_str == size){
+					
 					$(next_button).hide();
 				}
-				else if(int_str == 1){
+
+				if(int_str == 1){
+					
 					$(prev_button).hide();
 				}
 
@@ -389,6 +506,8 @@
 
 		$(page_list).prepend(prev_button);
 		$(page_list).append(next_button);
+
+		
 	}
 
 	
@@ -507,20 +626,72 @@
 	$(window).on('hashchange', () => {
 		$('#pg-list').empty();
 		let ismobile = detectMob();
-		removeCategory(ismobile);
+		let showing_posts = removeCategory(ismobile);
+		if(showing_posts)
+			[paginator_size, max_index]	= CalcPaginatorSize(showing_posts, ismobile);
+		
+		if(paginator_size && max_index){
+			
+			CreatePaginate(paginator_size, showing_posts, ismobile);
+			CreatePrevNextButton(max_index, showing_posts, ismobile);
+		}
+		localStorage.clear();
 		
 		
 	});
 
 	$(window).on('beforeunload', () => {
 
-		console.log("leave page");
+		
 	});
 
 	$(document).ready(() => {
-		$('#pg-list').empty();
+		
+		$('#pg-list').empty(); 
 		let ismobile = detectMob();
-		removeCategory(ismobile);
+		let showing_posts = removeCategory(ismobile);
+		if(showing_posts)
+			[paginator_size, max_index]	= CalcPaginatorSize(showing_posts, ismobile);
+		let postmeta = JSON.parse(localStorage.getItem("postmeta")); 
+		
+		
+		if(postmeta && window.location.hash){
+			const [category, tag, indexs, strong] = [postmeta.category, postmeta.tag, postmeta.indexs, postmeta.strong];
+			//should be clear for safety
+			
+
+			//get tag category from url
+			let hash = window.location.hash.substring(1);
+			let ctpair = hash.split("/");
+			let category_name = decodeURI(ctpair[0]);
+			let tag_name = decodeURI(ctpair[1]);
+			
+			//if ct pairs of postmeta and current page are the same, recover paginator 
+			if(category == category_name && tag == tag_name){
+				
+				
+				if(paginator_size && max_index){
+					
+					//CreatePaginate(paginator_size, showing_posts, ismobile);
+					RecoverPaginate(max_index, paginator_size, showing_posts, ismobile, indexs, strong);
+					CreatePrevNextButton(max_index, showing_posts, ismobile);
+					return;
+				}
+				
+
+				
+			}
+			
+		}
+		
+		if(paginator_size && max_index){
+			CreatePaginate(paginator_size, showing_posts, ismobile);
+			CreatePrevNextButton(max_index, showing_posts, ismobile);
+		}
+
+		localStorage.clear();
+		//removeCategory(ismobile);
+		
 		
 		
 	})
