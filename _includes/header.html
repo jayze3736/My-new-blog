@@ -2,5 +2,16 @@
 <header class = test-header>
     {%- include sidebar.html -%}
     <a href="{{ "/" | relative_url }}" rel = "author" class="title-position" > Jaymond's Blog </a>
+
+    <div class ="">
+    <form id="searchform" method="get" action="/search.html" class="search-form">
+        <input class= "test-input-field" aria-label="Search" id="search-box" 
+         name="query" type="text" autocomplete="off">
+    </form>
+    </div>
+
+    
+   
+    
 </header>
 

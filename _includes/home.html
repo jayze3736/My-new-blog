@@ -1,5 +1,35 @@
 <!-- 맨 앞의 홈페이지 대문글을 보여주는 html 페이지-->
+
 <article class="top-post">
+  <header class="post-header home">
+    <div class="post-title"> Task </div>
+  </header>
+
+  <div class="post-content">
+      {%- if site.posts.size > 0 -%}
+    <ul class="post-list">
+      {%- assign posts = site.categories.task -%}
+      {%- for post in posts limit: site.num_recentPosts -%}
+      <li class="post-list-item">
+        <!-- {%- assign date_format = site.date_format | default: "%b %-d, %Y" -%} -->
+        {%- assign date_format = "%Y/%m/%d" -%}
+        <span class="post-link-date">{{ post.date | date: date_format }}</span>
+          <a class="post-link" href="{{ post.url | relative_url }}">
+            {{ post.title | escape }}
+           
+            
+        </a>
+       
+      </li>
+      {%- endfor -%}
+    </ul>
+  {%- endif -%}
+  </div>
+</article>
+
+
+
+<article class="post">
     <header class="post-header home">
       <div class="post-title">Recent Posts</div>
     </header>
@@ -27,16 +57,18 @@
   </article>
 </div>
 
+
+
+
+
   <article class = "down-post">
     <header class="post-header home">
-      <div class="post-title"> About 
+      <div class="post-title"> About me
       </div>
     </header>
 
-
-    <div>
-      HEELO
-    </div>
+    {{content}}
+    
   </article>
   
   
