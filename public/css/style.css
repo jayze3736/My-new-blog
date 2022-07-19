@@ -635,7 +635,7 @@ article .share .gplus:hover {
 article {
   /*72px은 사이트의 top바의 높이*/
 	padding: 0 5% 0;
-	font-size: 17px;
+	font-size: 1.2em;
 	line-height: 1.9;
 }
 
@@ -1199,7 +1199,7 @@ float: left;
 
 @media (max-width: 600px) {
 	article {
-		font-size: 0.7em;
+		font-size: 1em;
 		line-height: 1.5;
 	}
 
