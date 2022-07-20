@@ -1145,6 +1145,7 @@ float: left;
 
 
 .post-header-post{
+  
   padding-bottom: 30px
   !important 
 
@@ -1195,6 +1196,18 @@ float: left;
 
 .search-result-list li::marker{
   text-align: center;
+}
+
+.post-show-list{
+  padding-bottom: 20px;
+  
+}
+
+.post-content-layout{
+  border: 3px solid #2d2d2d30;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-top: 10px;
 }
 
 @media (max-width: 600px) {
