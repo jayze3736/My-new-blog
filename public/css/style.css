@@ -1078,9 +1078,9 @@ background-color:#f7f7f7;
     letter-spacing: 1px;
     font-size: 0.85em;
     display: inline-block;
-    width: 80px;
+    /* width: 80px; */
     padding-left: 10px;  /* 10px*/
-    margin-right: 10px;
+    /* margin-right: 10px; */
   }
 
   .post-show-date{
