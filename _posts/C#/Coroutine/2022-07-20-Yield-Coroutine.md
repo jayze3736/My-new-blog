@@ -2,7 +2,7 @@
 title: 'Yield & Coroutine'
 category: C#
 tag: Coroutine
-
+layout: post
 
 ---
 - monobehaviour 과 new의 관계

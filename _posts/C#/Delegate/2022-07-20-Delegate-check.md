@@ -2,13 +2,13 @@
 title: 'Delegate 확인'
 category: C#
 tag: Delegate
-
+layout: post
 ---
 # Multicast 확인 
 
 저번에 delegate를 이용하여 멀티캐스팅이 가능하다고 했었다. 실제로 가능한지 Unity editor에서 확인해보았다.
 
-```C#
+{% highlight C# %}
 public delegate void Mydelegate(int i);
         Mydelegate dgt;
         
@@ -51,7 +51,7 @@ public delegate void Mydelegate(int i);
         }
 
 
-```
+{% endhighlight %}
 
 output:
 ![제목 없음](https://user-images.githubusercontent.com/79313194/153128054-4f2caa9e-647a-4946-9b0b-4063abfa0425.png)

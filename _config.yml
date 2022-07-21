@@ -35,8 +35,13 @@ number_paginate: 10 #the number of posts per category page
 num_recentPosts: 10 #the maximum number of posts on home page
 show_excerpts: true 
 paginate_link_margin: 3 #the maximum number of paginator link per page 
-highlighter-theme: monokai
-# Build settings
+#highlighter-theme: monokai
+markdown: kramdown
+highlighter: rouge
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+#Build settings
 #theme: minima
 plugins:
   - jekyll-feed

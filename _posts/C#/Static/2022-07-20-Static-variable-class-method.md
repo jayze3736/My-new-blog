@@ -2,6 +2,7 @@
 title: 'Static 클래스, 변수, 메소드'
 category: C#
 tag: Static
+layout: post
 ---
 # Static 클래스
 Static 클래스는 다음과 같은 특징이 존재한다.

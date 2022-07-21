@@ -2,6 +2,7 @@
 title: 'Event System 조사'
 tag: Delegate
 category: C#
+layout: post
 ---
 
 # Event가 처리되기까지의 과정
