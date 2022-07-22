@@ -666,7 +666,7 @@ article h6 {
 	color: #333;
   	margin-bottom: 10px;
     margin-top: 10px;
-   
+    border-bottom: 2px solid #2d2d2d30;
 }
 
 article.home h1 a,
