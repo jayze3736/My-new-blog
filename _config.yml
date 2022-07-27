@@ -34,7 +34,7 @@ category_dir: category/
 number_paginate: 10 #the number of posts per category page
 num_recentPosts: 10 #the maximum number of posts on home page
 show_excerpts: true 
-paginate_link_margin: 3 #the maximum number of paginator link per page 
+paginate_link_margin: 5 #the maximum number of paginator link per page 
 #highlighter-theme: monokai
 markdown: kramdown
 highlighter: rouge
