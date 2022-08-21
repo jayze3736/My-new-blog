@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 'Serialized Property API Wiki'
-category: UnityAPI
+category: UnityAPI-Wiki
 tag: Serialize
 ---
 # SerializedProperty.isExpanded

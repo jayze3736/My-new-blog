@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 'Attribute API'
-category: UnityAPI
+category: UnityAPI-Wiki
 tag: Attribute
 ---
 
