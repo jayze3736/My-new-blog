@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 개강전에 해야할 거
+title: '개강전에 해야할 거'
 category: 잡답
 tag: post
 ---

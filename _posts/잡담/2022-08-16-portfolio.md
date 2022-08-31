@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 포트폴리오
+title: '포트폴리오'
 category: 잡담
 tag: post
 ---
