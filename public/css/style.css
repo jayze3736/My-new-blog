@@ -1091,6 +1091,7 @@ background-color:#f7f7f7;
 
   .post-content{
     padding-bottom: 30px;
+    overflow: auto;
   }
   
   .post-content a{
