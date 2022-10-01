@@ -656,7 +656,7 @@ p {
   margin-bottom: 0;
 }
 
-article h1,
+
 article h2,
 article h3,
 article h4,
@@ -666,8 +666,41 @@ article h6 {
 	color: #333;
   	margin-bottom: 10px;
     margin-top: 10px;
+    
+}
+
+article h1{
+  font-family: "Roboto", "Nanum Gothic";
+	color: #333;
+  	margin-bottom: 10px;
+    margin-top: 10px;
     border-bottom: 2px solid #2d2d2d30;
 }
+
+h2::before {
+  content: "•";
+  border-radius: 1ch;
+  margin-inline-end: 1ch;
+  font-size:32px;
+  
+}
+
+h3::before {
+  content: "―";
+  border-radius: 1ch;
+  margin-inline-end: 1ch;
+  
+}
+
+
+h4::before {
+  content: "+";
+  border-radius: 1ch;
+  padding-inline: 1ch;
+  margin-inline-end: 1ch;
+  
+}
+
 
 article.home h1 a,
 article.home h2 a,
