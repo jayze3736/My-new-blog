@@ -5,4 +5,4 @@
 layout: home
 ---
 
-그저 건강한 프로그래머
+Feel your own thrill
