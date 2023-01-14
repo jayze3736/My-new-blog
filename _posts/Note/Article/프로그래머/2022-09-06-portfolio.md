@@ -1,6 +1,6 @@
 ---
 title: '프로그래머 관련 링크'
-category: Article
+category: Note
 tag: 프로그래머
 layout: post
 ---

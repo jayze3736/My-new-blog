@@ -1,6 +1,6 @@
 ---
 title: '읽어볼만한 Unity Article 링크'
-category: Article
+category: Note
 tag: Unity
 layout: post
 ---

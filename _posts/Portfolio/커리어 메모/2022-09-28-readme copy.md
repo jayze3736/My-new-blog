@@ -1,6 +1,6 @@
 ---
 title: '앞으로의 계획에 대해서'
-category: Career Memo
+category: Portfolio
 tag: Yume
 layout: post
 ---

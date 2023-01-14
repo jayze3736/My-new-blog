@@ -1,7 +1,7 @@
 ---
 layout: post
 title: '장학 및 수강 신청 관련'
-category: 잡담
+category: Note
 tag: post
 ---
 ## 전공

@@ -1,7 +1,7 @@
 ---
 layout: post 
 title: '게임 제작 관련'
-category: 잡담
+category: Note
 tag: post
 ---
 

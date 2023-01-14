@@ -1,7 +1,7 @@
 ---
 layout: post
 title: '개발할때 어려운 점'
-category: Coding-Strategy
+category: Coding
 tag: Question
 ---
 
