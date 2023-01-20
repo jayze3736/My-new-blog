@@ -1,8 +1,8 @@
 ---
 layout: post
 title: 'Trajectory'
-category: Project-plan
-tag: Unity
+category: Unity
+tag: Dev
 ---
 
 점을 움직여야하는 객체가 존재할때 이 점의 이동경로를 전부 애니메이션으로 구현하는 것은
