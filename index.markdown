@@ -5,4 +5,4 @@
 layout: home
 ---
 
-Feel your own thrill
+인간에게 있어서 가장 유감스러운 점은 자신의 추악함을 깨닫지 못했을때다.
