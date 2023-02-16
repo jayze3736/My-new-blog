@@ -662,7 +662,7 @@ article h3,
 article h4,
 article h5,
 article h6 {
-	font-family: "Roboto", "Nanum Gothic";
+	font-family: "Roboto"; /*, "Nanum Gothic"*/
 	color: #333;
   	margin-bottom: 10px;
     margin-top: 10px;
@@ -685,11 +685,18 @@ h2::before {
   
 }
 
+
 h3::before {
-  content: "―";
+  content: "•";
   border-radius: 1ch;
   margin-inline-end: 1ch;
   
+}
+
+h3 {
+font-size: 1.25em;
+margin-left: 15px;
+
 }
 
 
