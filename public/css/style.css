@@ -671,10 +671,21 @@ article h6 {
 
 article h1{
   font-family: "Roboto", "Nanum Gothic";
+  border-bottom: 2px solid #383838;
+  border-right: 2px solid #383838;
+  border-left: 2px solid #383838;
+  border-top: 2px solid #383838;
+  padding-left: 10px;
 	color: #333;
   	margin-bottom: 10px;
     margin-top: 10px;
-    border-bottom: 2px solid #2d2d2d30;
+  
+    
+}
+
+article h2{
+  border-bottom: 2px solid #2d2d2d30;
+
 }
 
 h2::before {
@@ -685,6 +696,15 @@ h2::before {
   
 }
 
+h3{
+  
+}
+
+h1::before{
+  
+margin-left: 1px;
+
+}
 
 h3::before {
   content: "•";
